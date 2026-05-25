@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岁芸逍遥 - 个人游戏主页</title>
+    <style>
+        /* 全局样式与电竞主题色 */
+        :root {
+            --bg-color: #0a0e17;
+            --card-bg: #141d2f;
+            --primary-color: #4ef2d2; /* 类似Cici皮肤的青蓝色 */
+            --accent-color: #ff4a7d;  /* 霓虹粉点缀 */
+            --text-color: #e2e8f0;
+            --text-muted: #8a99ad;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 霓虹滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f3150;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        /* 导航栏 */
+        header {
+            background-color: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(78, 242, 210, 0.2);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(78, 242, 210, 0.3);
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 8px rgba(78, 242, 210, 0.6);
+        }
+
+        /* 主视觉区 (Hero) */
+        .hero {
+            height: 70vh;
+            background: linear-gradient(135deg, rgba(10,14,23,0.95) 30%, rgba(20,29,47,0.6)), url('images/party.jpg') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 10%;
+            margin-top: 70px;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(transparent, var(--bg-color));
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 span {
+            color: var(--primary-color);
+            text-shadow: 0 0 20px rgba(78, 242, 210, 0.4);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        /* 主体布局 */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        section {
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 2.5rem;
+            position: relative;
+            padding-left: 15px;
+            display: inline-block;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 15%;
+            height: 70%;
+            width: 5px;
+            background-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        /* 游戏数据面板布局 */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .profile-container { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+
+        .gamer-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .avatar-box {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(78, 242, 210, 0.3);
+            overflow: hidden;
+        }
+
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gamer-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .gamer-id { color: var(--primary-color); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        .gamer-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(78, 242, 210, 0.1);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(78, 242, 210, 0.2);
+        }
+
+        /* 战绩图展示 */
+        .stats-display {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .stats-display:hover {
+            transform: translateY(-5px);
+        }
+
+        .stats-display img {
+            width: 100%;
+            display: block;
+            cursor: pointer;
+        }
+
+        /* 视频高光区 */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border: 1px solid rgba(78, 242, 210, 0.1);
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 画廊网格布局 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(78, 242, 210, 0.15);
+            border-color: rgba(78, 242, 210, 0.4);
+        }
+
+        .img-container {
+            height: 240px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover .img-container img {
+            transform: scale(1.08);
+        }
+
+        .card-info {
+            padding: 1.2rem;
+        }
+
+        .card-info h4 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: #06090f;
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer span {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">岁芸逍遥</div>
+        <nav>
+            <a href=" ">玩家档案</a >
+            <a href="#highlight">高光时刻</a >
+            <a href="#gallery">收藏画廊</a >
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h1>我是 <span>岁芸逍遥</span></h1>
+        <p>国服/国际服资深玩家，主打高阶排位。这是我的游戏主页，记录每一个闪耀的高光与荣耀成就。</p >
+    </div>
+
+    <div class="container">
+
+        <section id="profile">
+            <h2 class="section-title">玩家档案 & 实时数据</h2>
+            <div class="profile-container">
+                <div class="gamer-card">
+    <div class="avatar-box">
+        <img src="images/avatar.jpg" alt="头像">
+    </div>
+    <h3>岁芸逍遥</h3>
+    <p class="gamer-id">UID: 1222394 (服务器: 2002)</p>
+    <div class="gamer-tags">
+        <span class="tag">神话勋章</span>
+        <span class="tag">天狼噬月</span>
+        <span class="tag">高冷</span>
+        <span class="tag">常驻玩家</span>
+    </div>
+</div>
+<div class="stats-display">
+    <img src="images/avatar.jpg" alt="基本资料战绩面板" title="点击查看原图" onclick="window.open(this.src)">
+</div>
+            </div>
+        </section>
+
+        <section id="highlight">
+            <h2 class="section-title">真·高光时刻</h2>
+            <div class="video-wrapper">
+                <video controls preload="metadata" poster="images/cici-1.jpg">
+                    <source src="videos/highlight.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放，请升级浏览器。
+                </video>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <h2 class="section-title">英雄皮肤与精美收藏</h2>
+            <div class="gallery-grid">
+    
+    <div class="gallery-card">
+        <div class="img-container">
+            <img src="images/cici-1.jpg" alt="Cici">
+        </div>
+        <div class="card-info">
+            <h4>西西 (Cici)</h4>
+            <p>炫酷可爱的元气少女，周年庆典专属视觉。</p>
+        </div>
+    </div>
+
+    <div class="gallery-card">
+        <div class="img-container">
+            <img src="images/cici-2.jpg" alt="Cici 游戏内静态">
+        </div>
+        <div class="card-info">
+            <h4>西西 · 互动瞬间</h4>
+            <p>优雅而不失俏皮的掌上时刻。</p>
+        </div>
+    </div>
+
+    <div class="gallery-card">
+        <div class="img-container">
+            <img src="images/hanabi.jpg" alt="花火">
+        </div>
+        <div class="card-info">
+            <h4>彼岸花 · 刺客</h4>
+            <p>唯美和风与幽暗地府审判风格的完美融合。</p>
+        </div>
+    </div>
+
+    <div class="gallery-card">
+        <div class="img-container">
+            <img src="images/party.jpg" alt="庆典合照">
+        </div>
+        <div class="card-info">
+            <h4>周年生日派对</h4>
+            <p>群星齐聚，共享属于玩家的璀璨庆典。</p>
+        </div>
+    </div>
+
+</div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <span>岁芸逍遥</span> 个人游戏空间. 生涯不灭 游戏不止.</p >
+    </footer>
+
+</body>
+</html>
